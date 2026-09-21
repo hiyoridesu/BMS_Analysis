@@ -1,0 +1,344 @@
+/* ========== 全局 ========== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f5f7;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+header {
+    background: linear-gradient(135deg, #4a5fc1 0%, #6c8eef 100%);
+    color: white;
+    padding: 24px 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.lang-switcher label {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.lang-switcher select {
+    padding: 4px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.lang-switcher select option {
+    color: #2c3e50;
+    background: white;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header .subtitle {
+    margin: 4px 0 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+/* ========== 卡片 ========== */
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.card h2, .card h3 {
+    margin-top: 0;
+    color: #34495e;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 8px;
+}
+
+.chapter {
+    page-break-after: always;
+}
+
+/* ========== 上传区 ========== */
+#drop-zone {
+    border: 2px dashed #b0bec5;
+    border-radius: 8px;
+    padding: 36px 16px;
+    text-align: center;
+    background: #fafbfc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#drop-zone.drag-over {
+    background: #e8f0fe;
+    border-color: #4a5fc1;
+}
+
+#drop-zone p {
+    margin: 0 0 12px;
+    color: #607d8b;
+}
+
+#file-input {
+    display: none;
+}
+
+button {
+    background: #4a5fc1;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #3a4fa1;
+}
+
+button:disabled {
+    background: #b0bec5;
+    cursor: not-allowed;
+}
+
+#file-info {
+    margin-top: 12px;
+    color: #607d8b;
+    font-size: 13px;
+}
+
+#error-message {
+    margin-top: 12px;
+    color: #e74c3c;
+    font-size: 13px;
+}
+
+/* ========== 个人偏好 ========== */
+#preference-panel {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: #f8f9fb;
+    border-radius: 6px;
+    border-left: 4px solid #6c8eef;
+}
+
+#preference-panel h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #4a5fc1;
+    border: none;
+    padding: 0;
+}
+
+#preference-panel .pref-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+    font-size: 13px;
+}
+
+#preference-panel label {
+    color: #34495e;
+    min-width: 120px;
+}
+
+#preference-panel select {
+    padding: 4px 8px;
+    border: 1px solid #cfd8dc;
+    border-radius: 4px;
+    background: white;
+    font-size: 13px;
+    min-width: 100px;
+}
+
+#preference-panel .pref-note {
+    color: #95a5a6;
+    font-size: 12px;
+}
+
+/* ========== 导出栏 ========== */
+.export-bar {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#export-status {
+    color: #607d8b;
+    font-size: 13px;
+}
+
+/* ========== 图表容器 ========== */
+.chart-container {
+    position: relative;
+    height: 380px;
+    margin-top: 12px;
+}
+
+.radar-container {
+    height: 460px;
+    max-width: 600px;
+    margin: 12px auto;
+}
+
+.note {
+    color: #95a5a6;
+    font-size: 12px;
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* ========== 元数据 ========== */
+#meta-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px 16px;
+    font-size: 14px;
+}
+
+#meta-info .meta-item {
+    padding: 4px 0;
+}
+
+#meta-info .meta-label {
+    color: #95a5a6;
+    margin-right: 6px;
+}
+
+#meta-info .meta-value {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* ========== 仪表盘 ========== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.dash-card {
+    background: #f8f9fb;
+    border-radius: 6px;
+    padding: 14px 16px;
+    border-left: 4px solid #4a5fc1;
+}
+
+.dash-card .dash-label {
+    color: #607d8b;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.dash-card .dash-value {
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.dash-card .dash-unit {
+    color: #95a5a6;
+    font-size: 13px;
+    margin-left: 2px;
+}
+
+.dash-card.highlight {
+    border-left-color: #e74c3c;
+    background: #fdf2f0;
+}
+
+/* ========== 数据列表 ========== */
+#data-list {
+    font-size: 13px;
+}
+
+#data-list h4 {
+    margin: 16px 0 8px;
+    color: #4a5fc1;
+}
+
+#data-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 6px;
+}
+
+#data-list th, #data-list td {
+    border: 1px solid #ecf0f1;
+    padding: 6px 10px;
+    text-align: left;
+}
+
+#data-list th {
+    background: #f8f9fb;
+    color: #607d8b;
+    font-weight: 500;
+}
+
+#data-list .data-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dashed #ecf0f1;
+}
+
+#data-list .data-row:last-child {
+    border-bottom: none;
+}
+
+#data-list .data-key {
+    color: #607d8b;
+}
+
+#data-list .data-val {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* ========== PDF 导出时的样式 ========== */
+@media print {
+    body {
+        background: white;
+    }
+    .card {
+        box-shadow: none;
+        border: 1px solid #ecf0f1;
+    }
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMS 谱面分析系统</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div>
+                <h1 data-i18n="header.title">BMS 谱面分析系统</h1>
+                <p class="subtitle" data-i18n="header.subtitle">7K 谱面难度与键型分析工具</p>
+            </div>
+            <div class="lang-switcher">
+                <label for="lang-select" data-i18n="lang.label">语言：</label>
+                <select id="lang-select"></select>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 上传区 -->
+        <section id="upload-section" class="card">
+            <h2 data-i18n="section.upload">上传谱面</h2>
+            <div id="drop-zone">
+                <p data-i18n="upload.hint">拖入或点击上传 .bms / .bme / .pms 文件</p>
+                <input type="file" id="file-input" accept=".bms,.bme,.pms" />
+                <button id="browse-btn" data-i18n="btn.upload">选择文件</button>
+            </div>
+
+            <!-- 个人偏好（仅影响雷达图） -->
+            <div id="preference-panel">
+                <h3 data-i18n="pref.title">个人偏好（仅影响雷达图）</h3>
+                <div class="pref-row">
+                    <label for="best-pattern" data-i18n="pref.best">最擅长的配置：</label>
+                    <select id="best-pattern">
+                        <option value="none" selected data-i18n="pref.opt.none">无</option>
+                        <option value="chord" data-i18n="pref.opt.chord">多押</option>
+                        <option value="jack" data-i18n="pref.opt.jack">纵连</option>
+                        <option value="stair" data-i18n="pref.opt.stair">楼梯</option>
+                        <option value="scratch" data-i18n="pref.opt.scratch">皿复合</option>
+                    </select>
+                    <span class="pref-note" data-i18n="pref.best.note">该项雷达值 × 0.8</span>
+                </div>
+                <div class="pref-row">
+                    <label for="worst-pattern" data-i18n="pref.worst">最不擅长的配置：</label>
+                    <select id="worst-pattern">
+                        <option value="none" selected data-i18n="pref.opt.none">无</option>
+                        <option value="chord" data-i18n="pref.opt.chord">多押</option>
+                        <option value="jack" data-i18n="pref.opt.jack">纵连</option>
+                        <option value="stair" data-i18n="pref.opt.stair">楼梯</option>
+                        <option value="scratch" data-i18n="pref.opt.scratch">皿复合</option>
+                    </select>
+                    <span class="pref-note" data-i18n="pref.worst.note">该项雷达值 × 1.3</span>
+                </div>
+            </div>
+
+            <p id="file-info"></p>
+            <div id="error-message"></div>
+        </section>
+
+        <!-- 分析结果区 -->
+        <section id="result-section" style="display:none;">
+
+            <!-- 导出按钮 -->
+            <div class="export-bar">
+                <button id="export-pdf-btn" data-i18n="btn.export">导出 PDF</button>
+                <span id="export-status"></span>
+            </div>
+
+            <!-- 报告主体（PDF 截取对象） -->
+            <div id="report">
+
+                <!-- 报告头部 -->
+                <section class="card chapter" data-chapter="meta">
+                    <h2 id="report-title" data-i18n="report.title">谱面分析报告</h2>
+                    <div id="meta-info"></div>
+                </section>
+
+                <!-- 第 1 章：难度曲线（小节粒度） -->
+                <section class="card chapter" data-chapter="1">
+                    <h3 data-i18n="chapter.1">第 1 章：难度曲线（小节粒度）</h3>
+                    <div class="chart-container">
+                        <canvas id="density-chart-bar"></canvas>
+                    </div>
+                </section>
+
+                <!-- 第 2 章：难度曲线（15 秒粒度） -->
+                <section class="card chapter" data-chapter="2">
+                    <h3 data-i18n="chapter.2">第 2 章：难度曲线（15 秒粒度）</h3>
+                    <div class="chart-container">
+                        <canvas id="density-chart-segment"></canvas>
+                    </div>
+                </section>
+
+                <!-- 第 3 章：雷达图 -->
+                <section class="card chapter" data-chapter="3">
+                    <h3 data-i18n="chapter.3">第 3 章：六维难度雷达图</h3>
+                    <div class="chart-container radar-container">
+                        <canvas id="radar-chart"></canvas>
+                    </div>
+                    <p class="note" data-i18n="radar.note">归一化规则：每维度原始值 +10 偏移后；≤100 线性，&gt;100 取 100 + 50·log₁₀(x/100)</p>
+                </section>
+
+                <!-- 第 4 章：总览仪表盘 -->
+                <section class="card chapter" data-chapter="4">
+                    <h3 data-i18n="chapter.4">第 4 章：总览仪表盘</h3>
+                    <div id="dashboard" class="dashboard-grid"></div>
+                </section>
+
+                <!-- 第 5 章：数据列表 -->
+                <section class="card chapter" data-chapter="5">
+                    <h3 data-i18n="chapter.5">第 5 章：完整数据列表</h3>
+                    <div id="data-list"></div>
+                </section>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- 第三方库 -->
+    <script src="lib/chart.umd.min.js"></script>
+    <script src="lib/html2pdf.bundle.min.js"></script>
+
+    <!-- 翻译词表 + i18n 引擎 -->
+    <script src="lib/translations.js"></script>
+    <script src="src/i18n/i18n.js"></script>
+
+    <!-- 业务模块（顺序依赖关系） -->
+    <script src="src/parser/bms-parser.js"></script>
+    <script src="src/parser/normalizer.js"></script>
+    <script src="src/analyzer/density.js"></script>
+    <script src="src/analyzer/pattern.js"></script>
+    <script src="src/analyzer/segment.js"></script>
+    <script src="src/analyzer/difficulty.js"></script>
+    <script src="src/visualizer/density-chart.js"></script>
+    <script src="src/visualizer/radar-chart.js"></script>
+    <script src="src/visualizer/dashboard.js"></script>
+    <script src="src/exporter/pdf-exporter.js"></script>
+    <script src="src/ui/controller.js"></script>
+    <script src="src/main.js"></script>
+</body>
+</html>
